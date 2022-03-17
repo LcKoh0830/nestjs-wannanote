@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
@@ -13,7 +13,29 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const createdUser = new this.userModel(createUserDto);
 
+    let user = await this.findByUsername(createdUser.username);
+    if (user && user.username == createdUser.username) {
+      throw new HttpException(
+        'username already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    user = await this.findBy({ email: createdUser.email });
+    if (user && user.email == createdUser.email) {
+      throw new HttpException('email already exists', HttpStatus.BAD_REQUEST);
+    }
+
+    user = await this.findBy({ mobile_number: createdUser.mobile_number });
+    if (user && user.mobile_number == createdUser.mobile_number) {
+      throw new HttpException(
+        'mobile number already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     createdUser.password = await HashPass(createdUser.password);
+    createdUser.status = 0;
     createdUser.createdAt = new Date();
     createdUser.updatedAt = new Date();
     return createdUser.save();
@@ -23,12 +45,17 @@ export class UsersService {
     return this.userModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    return this.userModel.findOne({ _id: id }).exec();
   }
 
   async findByUsername(username: string) {
     return this.userModel.findOne({ username: username }).exec();
+  }
+
+  async findBy(condition: any) {
+    console.log(condition);
+    return this.userModel.findOne(condition).exec();
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

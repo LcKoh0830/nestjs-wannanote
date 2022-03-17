@@ -2,6 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
+import { RegisterDTO } from './dto/register.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,10 +25,13 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, d: 'data' };
+    const payload = { username: user.username, user_id: user.id };
     return {
       token: this.jwtService.sign(payload),
-      username: user.username,
     };
+  }
+
+  async register(registerDTO: RegisterDTO): Promise<any> {
+    return this.usersService.create(registerDTO);
   }
 }
