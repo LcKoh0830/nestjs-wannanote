@@ -36,8 +36,8 @@ export class UsersService {
 
     createdUser.password = await HashPass(createdUser.password);
     createdUser.status = 0;
-    createdUser.createdAt = new Date();
-    createdUser.updatedAt = new Date();
+    createdUser.created_at = new Date();
+    createdUser.updated_at = new Date();
     return createdUser.save();
   }
 
@@ -54,7 +54,6 @@ export class UsersService {
   }
 
   async findBy(condition: any) {
-    console.log(condition);
     return this.userModel.findOne(condition).exec();
   }
 

@@ -21,10 +21,10 @@ export class User {
   status: number;
 
   @Prop()
-  createdAt: Date;
+  created_at: Date;
 
   @Prop()
-  updatedAt: Date;
+  updated_at: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
