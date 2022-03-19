@@ -31,7 +31,7 @@ export class UsersController {
 
   @Get('user/:id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findOne(id);
   }
 
   @Patch('user/:id')
@@ -42,10 +42,5 @@ export class UsersController {
   @Delete('user/:id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
-  }
-
-  @Get('conf')
-  conf() {
-    return process.env.MONGO_URI;
   }
 }

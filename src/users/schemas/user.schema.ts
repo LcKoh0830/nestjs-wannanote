@@ -12,10 +12,19 @@ export class User {
   password: string;
 
   @Prop()
-  createdAt: Date;
+  email: string;
 
   @Prop()
-  updatedAt: Date;
+  mobile_number: string;
+
+  @Prop()
+  status: number;
+
+  @Prop()
+  created_at: Date;
+
+  @Prop()
+  updated_at: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
