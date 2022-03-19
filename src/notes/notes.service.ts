@@ -4,8 +4,8 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 
 @Injectable()
 export class NotesService {
-  create(createNoteDto: CreateNoteDto) {
-    return 'This action adds a new note';
+  create(createNoteDto: CreateNoteDto, userID: string) {
+    return `This action adds a new note by ${userID}`;
   }
 
   findAll() {
