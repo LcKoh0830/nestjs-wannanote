@@ -15,7 +15,10 @@ export class Note {
   content: string;
 
   @Prop()
-  createdAt: Date;
+  category: string;
+
+  @Prop()
+  created_at: Date;
 }
 
 export const NoteSchema = SchemaFactory.createForClass(Note);
